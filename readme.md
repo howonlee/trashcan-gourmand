@@ -1,7 +1,7 @@
 > I already am eating from the trash can all the time. The name of this trash can is ideology.  The material force of ideology makes me not see what I am effectively eating.
-> - S. Zizek
+> - S. Žižek
 
-> S. Zizek is a raccoon who lived in a dumpster behind a university's library who was transformed into a human by a witch
+> S. Žižek is a raccoon who lived in a dumpster behind a university's library who was transformed into a human by a witch
 > - B. Sutton
 
 # Trashcan Gourmand
