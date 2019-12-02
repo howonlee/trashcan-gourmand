@@ -3,7 +3,9 @@ import email
 import smtplib
 import os
 import random
+import functools
 from settings import Settings
+from typing import List, Union
 
 def send_message(contents: str, date: datetime.date, settings: Settings) -> None:
     msg_obj: email.message.EmailMessage = email.message.EmailMessage()
@@ -17,10 +19,25 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
         server.login(settings.smtp_username, settings.smtp_password)
         server.send_message(msg_obj)
 
+def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> str:
+    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
+    filter_func = functools.partial(filter_by_filetype, filetypes=filetypes)
+    filtered_choices = list(filter(filter_func, random_choices))
+    return random.choice(filtered_choices)
+
+def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
+    if type(filetypes) == str:
+        return member.endswith(filetypes)
+    elif type(filetype) == list:
+        for filetype in filetypes:
+            if member.endswith(filetype):
+                return True
+        return False
+    else:
+        raise Exception("Wrong type on filetype")
+
 if __name__ == "__main__":
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     random_root = "/home/howon/Dropbox/Projects/southcote"
-    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
-    filtered_choices = list(filter(lambda x: x.endswith(".py"), random_choices))
-    curr_choice = random.choice(filtered_choices)
+    curr_choice = choose_random_file(random_root, ".py")
     os.system("pygmentize -o {}/curr_img.png {}".format(curr_dir, curr_choice))
