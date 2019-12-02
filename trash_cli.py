@@ -12,6 +12,27 @@ import functools
 import dataclasses
 import json
 
+
+@dataclasses.dataclass
+class Settings(object):
+    root_dir: str # Root dir to sample the files from
+    filetypes: Union[str, List[str]] # filetype or filetypes to sample from
+    smtp_username: str
+    smtp_password: str
+    smtp_dest_email: str
+    smtp_url: str = "smtp.gmail.com"
+    smtp_port: int = 587
+
+    def to_file(self, settings_filename: str) -> None:
+        with open(settings_filename, "w") as settings_file:
+            json.dump(dataclasses.asdict(self), settings_file)
+
+    @staticmethod
+    def from_file(settings_filename: str):
+        with open(settings_filename, "r") as settings_file:
+            json_res: Dict[str, Any] = json.load(settings_file)
+            return Settings(**json_res)
+
 def get_curr_dir():
     return os.path.dirname(os.path.abspath(__file__))
 
@@ -84,27 +105,6 @@ def process_filetypes(filetypes: str) -> Union[str, List[str]]:
     else:
         return list(map(lambda x: x.strip(), filetypes.split(",")))
 
-
-@dataclasses.dataclass
-class Settings(object):
-    root_dir: str # Root dir to sample the files from
-    filetypes: Union[str, List[str]] # filetype or filetypes to sample from
-    smtp_username: str
-    smtp_password: str
-    smtp_dest_email: str
-    smtp_url: str = "smtp.gmail.com"
-    smtp_port: int = 587
-
-    def to_file(self, settings_filename: str) -> None:
-        with open(settings_filename, "w") as settings_file:
-            json.dump(dataclasses.asdict(self), settings_file)
-
-    @staticmethod
-    def from_file(settings_filename: str):
-        with open(settings_filename, "r") as settings_file:
-            json_res: Dict[str, Any] = json.load(settings_file)
-            return Settings(**json_res)
-
 def send_message(contents: str, date: datetime.date, settings: Settings) -> None:
     msg_obj: email.message.EmailMessage = email.message.EmailMessage()
     msg_obj['From'] = settings.smtp_username
@@ -125,8 +125,8 @@ def cli():
 @cli.command()
 def setsettings():
     settings_path = get_settings_path()
-    root_dir = os.path.expanduser(input("Root dir (the root dir of the project to email >"))
-    filetypes = process_filetypes(input("Filetypes (the filetypes to email): separated by commas. For example, .py,.js >"))
+    root_dir = os.path.expanduser(input("Root dir (the root dir of the project to email > "))
+    filetypes = process_filetypes(input("Filetypes (the filetypes to email): separated by commas. For example, .py,.js > "))
     smtp_username = input("SMTP username (your webmail username, usually) > ")
     smtp_password = input("SMTP app password (for gmail, see https://support.google.com/accounts/answer/185833) > ")
     smtp_dest_email = input("Destination email. Can be same or different from SMTP username. > ")
