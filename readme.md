@@ -44,6 +44,14 @@ You can set multiple settings by going through `setsettings` multiple times, one
 
 Depending on your crontab implementation, usually missed dates in cronjobs on a laptop will miss the cron runs in your laptop. Use an always-on box or spin up a cloud instance or something if you need it to always run.
 
+## It doesn't email at all.
+
+Check if you got the email app password and that you have all the email configuration settings right. Your normal email password will have the 2FA or whatever on.
+
+## The security (or lack thereof) terrifies me.
+
+Reasonable. This is not really a serious project. Maybe don't use it for the ultra secret things?
+
 # Contributing
 
 I will respond to issues and emails if I feel like it, otherwise not. I have a job and stuff, full-time support isn't happening.
