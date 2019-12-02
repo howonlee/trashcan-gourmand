@@ -12,6 +12,79 @@ import functools
 import dataclasses
 import json
 
+def get_curr_dir():
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+def get_message() -> str:
+    """
+    Depends upon filesystem state to get the message
+    """
+    curr_dir = get_curr_dir()
+    res = ""
+    with open("{}/curr_res.html".format(curr_dir), "r") as curr_file:
+        res = curr_file.read()
+    return res
+
+
+def set_curr_res(settings: Settings) -> None:
+    """ Mutates curr_res.html in current folder """
+    curr_dir = get_curr_dir()
+    random_root = settings.root_dir
+    curr_choice = choose_random_file(random_root, settings.filetypes)
+    os.system("pygmentize -o {}/curr_res.html {}".format(curr_dir, curr_choice))
+
+
+def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> str:
+    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
+    filter_func = functools.partial(filter_by_filetype, filetypes=filetypes)
+    filtered_choices = list(filter(filter_func, random_choices))
+    return random.choice(filtered_choices)
+
+
+def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
+    if type(filetypes) == str:
+        return member.endswith(filetypes)
+    elif type(filetypes) == list:
+        for filetype in filetypes:
+            if member.endswith(filetype):
+                return True
+        return False
+    else:
+        raise Exception("Wrong type on filetype")
+
+def get_settings_dir() -> str:
+    """
+    Side effect of making sure the settings dir exists
+    """
+    res = os.path.expanduser("~/.trashcangourmand")
+    # Make sure it actually exists
+    os.makedirs(res, exist_ok=True)
+    return res
+
+def get_settings_filename() -> str:
+    return "{}.settings".format(str(int(time.time())))
+
+def get_settings_path() -> str:
+    return os.path.join(get_settings_dir(), get_settings_filename())
+
+
+def get_all_settings() -> List[Settings]:
+    res: List[Settings] = []
+    settings_filenames = filter(
+            lambda x: x.endswith("settings"),
+            os.listdir(get_settings_dir())
+            )
+    settings_paths = [os.path.join(get_settings_dir(), fn) for fn in settings_filenames]
+    return list(map(Settings.from_file, settings_paths))
+
+def process_filetypes(filetypes: str) -> Union[str, List[str]]:
+    if "," not in filetypes:
+        return filetypes
+    else:
+        return list(map(lambda x: x.strip(), filetypes.split(",")))
+
+
 @dataclasses.dataclass
 class Settings(object):
     root_dir: str # Root dir to sample the files from
@@ -45,76 +118,9 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
         server.login(settings.smtp_username, settings.smtp_password)
         server.send_message(msg_obj)
 
-def get_curr_dir():
-    return os.path.dirname(os.path.abspath(__file__))
-
-def get_message() -> str:
-    """
-    Depends upon filesystem state to get the message
-    """
-    curr_dir = get_curr_dir()
-    res = ""
-    with open("{}/curr_res.html".format(curr_dir), "r") as curr_file:
-        res = curr_file.read()
-    return res
-
-def set_curr_res(settings: Settings) -> None:
-    """ Mutates curr_res.html in current folder """
-    curr_dir = get_curr_dir()
-    random_root = settings.root_dir
-    curr_choice = choose_random_file(random_root, settings.filetypes)
-    os.system("pygmentize -o {}/curr_res.html {}".format(curr_dir, curr_choice))
-
-def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> str:
-    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
-    filter_func = functools.partial(filter_by_filetype, filetypes=filetypes)
-    filtered_choices = list(filter(filter_func, random_choices))
-    return random.choice(filtered_choices)
-
-def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
-    if type(filetypes) == str:
-        return member.endswith(filetypes)
-    elif type(filetypes) == list:
-        for filetype in filetypes:
-            if member.endswith(filetype):
-                return True
-        return False
-    else:
-        raise Exception("Wrong type on filetype")
 @click.group()
 def cli():
     pass
-
-def get_settings_dir() -> str:
-    """
-    Side effect of making sure the settings dir exists
-    """
-    res = os.path.expanduser("~/.trashcangourmand")
-    # Make sure it actually exists
-    os.makedirs(res, exist_ok=True)
-    return res
-
-def get_settings_filename() -> str:
-    return "{}.settings".format(str(int(time.time())))
-
-def get_settings_path() -> str:
-    return os.path.join(get_settings_dir(), get_settings_filename())
-
-def get_all_settings() -> List[Settings]:
-    res: List[Settings] = []
-    settings_filenames = filter(
-            lambda x: x.endswith("settings"),
-            os.listdir(get_settings_dir())
-            )
-    settings_paths = [os.path.join(get_settings_dir(), fn) for fn in settings_filenames]
-    return list(map(Settings.from_file, settings_paths))
-
-def process_filetypes(filetypes: str) -> Union[str, List[str]]:
-    if "," not in filetypes:
-        return filetypes
-    else:
-        return list(map(lambda x: x.strip(), filetypes.split(",")))
-
 
 @cli.command()
 def setsettings():
