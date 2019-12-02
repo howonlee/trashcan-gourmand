@@ -1,9 +1,28 @@
 
 
-#### set settings
-#### get settings
-#### choose random file and email
-#### set the cronjob
+def set_settings():
+    ########
+    ########
+    ########
+    pass
+
+def get_settings():
+    ########
+    ########
+    ########
+    pass
+
+def choose_random_file_and_email():
+    ########
+    ########
+    ########
+    pass
+
+def set_cronjob():
+    ########
+    ########
+    ########
+    pass
 
 if __name__ == "__main__":
     ######
