@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.7
 import os
 import time
+import datetime
 import crontab
 import click
 from typing import Union, List
@@ -32,7 +33,8 @@ def get_all_settings() -> List[Settings]:
             lambda x: x.endswith("settings"),
             os.listdir(get_settings_dir())
             )
-    return list(map(Settings.from_file, settings_filenames))
+    settings_paths = [os.path.join(get_settings_dir(), fn) for fn in settings_filenames]
+    return list(map(Settings.from_file, settings_paths))
 
 def process_filetypes(filetypes: str) -> Union[str, List[str]]:
     if "," not in filetypes:
@@ -44,7 +46,7 @@ def process_filetypes(filetypes: str) -> Union[str, List[str]]:
 @cli.command()
 def setsettings():
     settings_path = get_settings_path()
-    root_dir = input("Root dir (the root dir of the project to email >")
+    root_dir = os.path.expanduser(input("Root dir (the root dir of the project to email >"))
     filetypes = process_filetypes(input("Filetypes (the filetypes to email): separated by commas. For example, .py,.js >"))
     smtp_username = input("SMTP username (your webmail username, usually) > ")
     smtp_password = input("SMTP app password (for gmail, see https://support.google.com/accounts/answer/185833) > ")
@@ -59,7 +61,9 @@ def setsettings():
             smtp_url=smtp_url,
             smtp_port=int(smtp_port))
     new_settings.to_file(settings_path)
-    click.echo("New settings saved. Now go run trashcangourmand setcron")
+    click.echo("New settings saved.")
+    click.echo("Now go run trashcangourmand setcron")
+    click.echo("Or go run trashcangourmand dish")
 
 @cli.command()
 def dish():
