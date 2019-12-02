@@ -33,15 +33,11 @@ class Settings(object):
             json_res: Dict[str, Any] = json.load(settings_file)
             return Settings(**json_res)
 
-def get_curr_dir():
-    return os.path.dirname(os.path.abspath(__file__))
-
-
 def get_message() -> str:
     """
     Depends upon filesystem state to get the message
     """
-    curr_dir = get_curr_dir()
+    curr_dir = get_settings_dir()
     res = ""
     with open("{}/curr_res.html".format(curr_dir), "r") as curr_file:
         res = curr_file.read()
@@ -50,7 +46,7 @@ def get_message() -> str:
 
 def set_curr_res(settings: Settings) -> None:
     """ Mutates curr_res.html in current folder """
-    curr_dir = get_curr_dir()
+    curr_dir = get_settings_dir()
     random_root = settings.root_dir
     curr_choice = choose_random_file(random_root, settings.filetypes)
     os.system("pygmentize -o {}/curr_res.html {}".format(curr_dir, curr_choice))
