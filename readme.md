@@ -14,6 +14,13 @@ It has been my experience that my judgment of a source file's importance to a pr
 
 # Getting Started
 
+## Requirements
+
+Python 3.7
+I say POSIX OS but I'm only realistically going to test it on OSX and Ubuntu so those, or whatever you'd like to wrangle
+
+Run `pip install -r requirements.txt` to install packages.
+
 ## Installation
 ######################### some shit here
 ######################### some shit here
