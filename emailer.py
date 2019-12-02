@@ -1,9 +1,8 @@
 import datetime
 import email
 import smtplib
-import pygments as pg
-from pygments.lexers import PythonLexer
-from pygments.formatters import GifImageFormatter
+import os
+import random
 from settings import Settings
 
 def send_message(contents: str, date: datetime.date, settings: Settings) -> None:
@@ -19,5 +18,9 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
         server.send_message(msg_obj)
 
 if __name__ == "__main__":
-    code = 'print "Hello World"'
-    print(pg.highlight(code, PythonLexer(), GifImageFormatter(linenos=True)))
+    curr_dir = os.path.dirname(os.path.abspath(__file__))
+    random_root = "/home/howon/Dropbox/Projects/southcote"
+    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
+    filtered_choices = list(filter(lambda x: x.endswith(".py"), random_choices))
+    curr_choice = random.choice(filtered_choices)
+    os.system("pygmentize -o {}/curr_img.png {}".format(curr_dir, curr_choice))
