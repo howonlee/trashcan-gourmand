@@ -1,3 +1,5 @@
 pygments
 hypothesis
 pytest
+click
+python-crontab

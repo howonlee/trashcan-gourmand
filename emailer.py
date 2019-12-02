@@ -19,6 +19,13 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
         server.login(settings.smtp_username, settings.smtp_password)
         server.send_message(msg_obj)
 
+def get_message() -> str:
+    ##########
+    ##########
+    ##########
+    ##########
+    pass
+
 def set_curr_res(settings: Settings) -> None:
     """ Mutates curr_res.html in current folder """
     curr_dir = os.path.dirname(os.path.abspath(__file__))
