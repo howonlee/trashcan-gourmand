@@ -5,9 +5,60 @@ import datetime
 import crontab
 import click
 from typing import Union, List
-from settings import Settings
-import emailer
+import email
+import smtplib
+import random
+import functools
 
+def send_message(contents: str, date: datetime.date, settings: Settings) -> None:
+    msg_obj: email.message.EmailMessage = email.message.EmailMessage()
+    msg_obj['From'] = settings.smtp_username
+    msg_obj['To'] = settings.smtp_dest_email
+    msg_obj['Subject'] = "Trashcan Gourmand | {}".format(str(date))
+    msg_obj.set_content(contents)
+    msg_obj.add_alternative(contents, subtype='html')
+    with smtplib.SMTP(settings.smtp_url, settings.smtp_port) as server:
+        server.ehlo()
+        server.starttls()
+        server.login(settings.smtp_username, settings.smtp_password)
+        server.send_message(msg_obj)
+
+def get_curr_dir():
+    return os.path.dirname(os.path.abspath(__file__))
+
+def get_message() -> str:
+    """
+    Depends upon filesystem state to get the message
+    """
+    curr_dir = get_curr_dir()
+    res = ""
+    with open("{}/curr_res.html".format(curr_dir), "r") as curr_file:
+        res = curr_file.read()
+    return res
+
+def set_curr_res(settings: Settings) -> None:
+    """ Mutates curr_res.html in current folder """
+    curr_dir = get_curr_dir()
+    random_root = settings.root_dir
+    curr_choice = choose_random_file(random_root, settings.filetypes)
+    os.system("pygmentize -o {}/curr_res.html {}".format(curr_dir, curr_choice))
+
+def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> str:
+    random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
+    filter_func = functools.partial(filter_by_filetype, filetypes=filetypes)
+    filtered_choices = list(filter(filter_func, random_choices))
+    return random.choice(filtered_choices)
+
+def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
+    if type(filetypes) == str:
+        return member.endswith(filetypes)
+    elif type(filetypes) == list:
+        for filetype in filetypes:
+            if member.endswith(filetype):
+                return True
+        return False
+    else:
+        raise Exception("Wrong type on filetype")
 @click.group()
 def cli():
     pass
@@ -73,9 +124,9 @@ def dish():
         return None
     for settings in all_settings:
         # Cannot do this concurrently w/o difficulties
-        emailer.set_curr_res(settings)
-        message = emailer.get_message()
-        emailer.send_message(message, datetime.date.today(), settings)
+        set_curr_res(settings)
+        message = get_message()
+        send_message(message, datetime.date.today(), settings)
         click.echo("Message sent")
     click.echo("All messages sent.")
 
