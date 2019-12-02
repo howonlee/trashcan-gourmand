@@ -6,7 +6,7 @@
 
 # Trashcan Gourmand
 
-Trashcan Gourmand is a tool to help you remember your projects by sending you a randomly chosen bit of source code from a project every day.
+Trashcan Gourmand is a tool to help you remember your projects by sending you a randomly chosen bit of source code from a project every day. It only works on POSIX right now.
 
 Every day it causes you to email yourself the image of an individual source file from a project which you choose. Because there is no hosting and it is all done on your machine, there are many fewer security concerns.
 
