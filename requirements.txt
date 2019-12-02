@@ -1,4 +1,4 @@
-ansi2html
 pygments
 hypothesis
 pytest
+PIL

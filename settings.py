@@ -1,6 +1,6 @@
 import dataclasses
 import json
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, List
 
 @dataclasses.dataclass
 class Settings(object):

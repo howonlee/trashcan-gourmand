@@ -1,8 +1,10 @@
 import datetime
 import email
 import smtplib
+import pygments as pg
+from pygments.lexers import PythonLexer
+from pygments.formatters import GifImageFormatter
 from settings import Settings
-from ansi2html import Ansi2HTMLConverter
 
 def send_message(contents: str, date: datetime.date, settings: Settings) -> None:
     msg_obj: email.message.EmailMessage = email.message.EmailMessage()
@@ -17,6 +19,5 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
         server.send_message(msg_obj)
 
 if __name__ == "__main__":
-    converter = Ansi2HTMLConverter()
-    randfile = 
-    pass
+    code = 'print "Hello World"'
+    print(pg.highlight(code, PythonLexer(), GifImageFormatter(linenos=True)))
