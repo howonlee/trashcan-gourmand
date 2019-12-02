@@ -27,7 +27,7 @@ def get_settings_path() -> str:
     return os.path.join(get_settings_dir(), get_settings_filename())
 
 def get_all_settings() -> List[Settings]:
-    res = []
+    res: List[Settings] = []
     settings_filenames = filter(
             lambda x: x.endswith("settings"),
             os.listdir(get_settings_dir())
@@ -91,4 +91,4 @@ def setcron():
         click.echo("Trashcan Gourmand cron has now been set. Try running trashcangourmand dish to email you some stuff")
 
 if __name__ == "__main__":
-    pass
+    cli()
