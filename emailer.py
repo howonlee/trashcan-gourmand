@@ -28,7 +28,7 @@ def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> st
 def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
     if type(filetypes) == str:
         return member.endswith(filetypes)
-    elif type(filetype) == list:
+    elif type(filetypes) == list:
         for filetype in filetypes:
             if member.endswith(filetype):
                 return True
@@ -39,5 +39,5 @@ def filter_by_filetype(member: str, filetypes: Union[str, List[str]]):
 if __name__ == "__main__":
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     random_root = "/home/howon/Dropbox/Projects/southcote"
-    curr_choice = choose_random_file(random_root, ".py")
+    curr_choice = choose_random_file(random_root, [".py"])
     os.system("pygmentize -o {}/curr_img.png {}".format(curr_dir, curr_choice))
