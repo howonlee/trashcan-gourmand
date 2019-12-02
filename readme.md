@@ -30,8 +30,13 @@ Run `pip install -r requirements.txt` to install packages if you're developing.
 ## Usage
 
 - `trashcangourmand setsettings` goes through an interactive thing to set settings so Trashcan Gourmand can get your machine to email itself.
+
+You can set multiple settings by going through `setsettings` multiple times, one for each project you want to email. It will email one email per project (be careful about your email provider's email limits). It's your email which is sending, so don't email anyone you don't want to spam with the internal details of your projects.
+
+`setsettings` creates settings files, which are just json files, in `~/.trashcangourmet`. Remove them if you want to not be emailed anymore.
+
+- `trashcangourmand setcron` sets your crontab settings to do `trashcangourmand dish` every day at 5am system time. Sets crontab on current user, no interaction needed.
 - `trashcangourmand dish` dishes out an image of an individual source file.
-- `trashcangourmand setcron` sets your crontab settings to do `trashcangourmand dish` every day at 5am system time.
 
 # Troubleshooting
 
