@@ -1,4 +1,3 @@
 pygments
 hypothesis
 pytest
-PIL
