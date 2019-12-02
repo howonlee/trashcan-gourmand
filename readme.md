@@ -19,15 +19,14 @@ It has been my experience that my judgment of a source file's importance to a pr
 Python 3.7
 I say POSIX OS but I'm only realistically going to test it on OSX and Ubuntu so those, or whatever you'd like to wrangle
 
-Run `pip install -r requirements.txt` to install packages.
+Run `pip install -r requirements.txt` to install packages if you're developing.
 
 ## Installation
-######################### some shit here
-######################### some shit here
-######################### some shit here
-######################### some shit here
+
+`pip install trashcangourmand`
 
 ## First usage
+
 ######################### some shit here
 ######################### some shit here
 ######################### some shit here
@@ -43,7 +42,9 @@ Run `pip install -r requirements.txt` to install packages.
 
 # Contributing
 
-If you'd like to contribute, just email me (Howon) sometime before putting up a PR or something.
+I will respond to issues and emails if I feel like it, otherwise not. I have a job and stuff, full-time support isn't happening.
+
+If you'd like to contribute, just email me (Howon) sometime before putting up a PR or something. I may or may not reply, depends upon how I feel like it.
 
 # License
 
