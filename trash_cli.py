@@ -1,24 +1,18 @@
 
 
-def set_settings():
+def setsettings():
     ########
     ########
     ########
     pass
 
-def get_settings():
+def dish():
     ########
     ########
     ########
     pass
 
-def choose_random_file_and_email():
-    ########
-    ########
-    ########
-    pass
-
-def set_cronjob():
+def setcron():
     ########
     ########
     ########
