@@ -86,7 +86,7 @@ def setcron():
         click.echo("Trashcan Gourmand cron already set")
     else:
         job = curr_cron.new(command="trashgourmand dish", comment="trashgourmandcron")
-        job.hour.on(20)
+        job.hour.on(5)
         curr_cron.write_to_user(user=True)
         click.echo("Trashcan Gourmand cron has now been set. Try running trashcangourmand dish to email you some stuff")
 
