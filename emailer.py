@@ -13,6 +13,7 @@ def send_message(contents: str, date: datetime.date, settings: Settings) -> None
     msg_obj['To'] = settings.smtp_dest_email
     msg_obj['Subject'] = "Trashcan Gourmand | {}".format(str(date))
     msg_obj.set_content(contents)
+    msg_obj.add_alternative(contents, subtype='html')
     with smtplib.SMTP(settings.smtp_url, settings.smtp_port) as server:
         server.ehlo()
         server.starttls()

@@ -75,7 +75,7 @@ def dish():
         # Cannot do this concurrently w/o difficulties
         emailer.set_curr_res(settings)
         message = emailer.get_message()
-        emailer.send_message(message, datetime.datetime.today(), settings)
+        emailer.send_message(message, datetime.date.today(), settings)
         click.echo("Message sent")
     click.echo("All messages sent.")
 
