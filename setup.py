@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
         name="trashcangourmand",
-        version="1.0.0",
+        version="1.1.0",
         description="A scheduler to email you your own code to read",
         url="https://github.com/howonlee/trashcan-gourmand",
         author="Howon Lee",
