@@ -69,7 +69,7 @@ def setsettings():
 def dish():
     all_settings = get_all_settings()
     if not get_all_settings():
-        click.echo("Run trashgourmand setsettings first")
+        click.echo("Run trashcangourmand setsettings first")
         return None
     for settings in all_settings:
         # Cannot do this concurrently w/o difficulties
@@ -83,13 +83,13 @@ def dish():
 def setcron():
     ### if no members of settings folder, error out
     if not get_all_settings():
-        click.echo("Run trashgourmand setsettings first")
+        click.echo("Run trashcangourmand setsettings first")
         return None
     curr_cron = crontab.CronTab(user=True)
-    if len(list(curr_cron.find_comment("trashgourmandcron"))) > 0:
+    if len(list(curr_cron.find_comment("trashcangourmandcron"))) > 0:
         click.echo("Trashcan Gourmand cron already set")
     else:
-        job = curr_cron.new(command="trashgourmand dish", comment="trashgourmandcron")
+        job = curr_cron.new(command="trashcangourmand dish", comment="trashcangourmandcron")
         job.hour.on(5)
         curr_cron.write_to_user(user=True)
         click.echo("Trashcan Gourmand cron has now been set. Try running trashcangourmand dish to email you some stuff")
