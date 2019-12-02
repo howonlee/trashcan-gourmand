@@ -24,12 +24,12 @@ def send_message(date: datetime.date, settings: Settings) -> None:
         server.login(settings.smtp_username, settings.smtp_password)
         server.send_message(msg_obj)
 
-def set_curr_img(settings: Settings) -> None:
-    """ Mutates curr_img.png in current folder """
+def set_curr_res(settings: Settings) -> None:
+    """ Mutates curr_res.html in current folder """
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     random_root = settings.root_dir
     curr_choice = choose_random_file(random_root, settings.filetypes)
-    os.system("pygmentize -o {}/curr_img.png {}".format(curr_dir, curr_choice))
+    os.system("pygmentize -o {}/curr_res.html {}".format(curr_dir, curr_choice))
 
 def choose_random_file(random_root: str, filetypes: Union[str, List[str]]) -> str:
     random_choices = [os.path.join(dp, f) for dp, dn, fn in os.walk(random_root) for f in fn]
