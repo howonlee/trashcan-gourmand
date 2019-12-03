@@ -35,14 +35,29 @@ You can set multiple settings by going through `setsettings` multiple times, one
 
 `setsettings` creates settings files, which are just json files, in `~/.trashcangourmet`. Remove them if you want to not be emailed anymore.
 
-- `trashcangourmand setcron` sets your crontab settings to do `trashcangourmand dish` every day at 5am system time. Sets crontab on current user, no interaction needed.
+- `trashcangourmand setcron` sets your crontab settings to do `trashcangourmand dish` every day at 5am system time. Sets crontab on current user, no interaction needed, but this won't work with anacron.
+
+If you want to set up anacron on root, which I usually do, it looks something more like
+
+```
+sudo sh -c 'echo "#!/bin/bash -e
+> sudo -H -u <your username> trashcangourmand dish" >> /home/<your username>/.trashcangourmand/trashcangourmand.log 2>&1'
+```
+
+And if you want run-parts in cron-daily to have them, the script to put in `cron.daily` looks more like
+
+```
+#!/bin/bash -e
+sudo -H -u <your username> trashcangourmand dish" >> /home/<your username>/.trashcangourmand/trashcangourmand.log 2>&1
+```
+
 - `trashcangourmand dish` dishes out an image of an individual source file.
 
 # Troubleshooting
 
 ## I have a laptop and it emails intermittently.
 
-Depending on your crontab implementation, usually missed dates in cronjobs on a laptop will miss the cron runs in your laptop. Use an always-on box or spin up a cloud instance or something if you need it to always run.
+Depending on your crontab implementation, usually missed dates in cronjobs on a laptop will miss the cron runs in your laptop. Use an always-on box or spin up a cloud instance or something if you need it to always run. Use anacron if you just want it to run eventually, when the laptop is on.
 
 ## It doesn't email at all.
 
