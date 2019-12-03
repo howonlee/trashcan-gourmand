@@ -8,7 +8,7 @@
 
 Trashcan Gourmand is a tool to help you remember the details of your programming projects. It does this by sending you a randomly chosen bit of source code from a project every day.
 
-Every day it causes you to email yourself the image of an individual source file from a project which you choose. Because there is no hosting and it is all done on your machine, there are many fewer security concerns.
+Every day it causes you to email yourself the image of an individual source file from a project which you choose. Because there is no hosting and it is all done on your machine, I don't have to janitor anything besides the mail and my machine, and you don't have to do anything except for your mail and your machine.
 
 It has been my experience that my judgment of a source file's importance to a project has been terrible, so this tool chooses source files completely randomly, given a filetype or filetypes. This is eating from the trashcan of your project.
 
@@ -61,7 +61,7 @@ Depending on your crontab implementation, usually missed dates in cronjobs on a 
 
 ## It doesn't email at all.
 
-Check if you got the email app password and that you have all the email configuration settings right. Your normal email password will have the 2FA or whatever on.
+Check if you got the email _app_ password and that you have all the email configuration settings right. Your normal email password will have the 2FA or whatever on.
 
 ## The security (or lack thereof) terrifies me.
 
